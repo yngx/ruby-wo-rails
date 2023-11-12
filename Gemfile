@@ -7,3 +7,5 @@ source "https://rubygems.org"
 gem "puma", "~> 6.4"
 
 gem "rack", "~> 3.0"
+
+gem "erb", "~> 4.0"
