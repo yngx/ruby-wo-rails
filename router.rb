@@ -1,5 +1,16 @@
+require 'singleton'
 
 class Router
+  include Singleton
+
+  attr_reader :routes
+
+  class << self
+    def draw(&blk)
+      Router.instance.instance_exec(&blk)
+    end
+  end
+
   def initialize
     @routes = {}
   end
