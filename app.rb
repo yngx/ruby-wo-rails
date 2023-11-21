@@ -1,8 +1,19 @@
 require 'erb'
+require_relative './router'
 
 class App
+  attr_reader :router
+
+  def initialize
+    @router = Router.new
+
+    router.get('/') { "Ruby on Rails" }
+    router.get('/articles') { 'All Articles' }
+    router.get('/articles/1') { "First Article" }
+  end
+
   def call(env)
-    title = get_query_string(env) || 'Ruby on Rails'
+    title = router.build_response(env['REQUEST_PATH'])
     erb = ERB.new(html_template)
     response_html = erb.result(binding)
 
@@ -15,11 +26,5 @@ class App
 
   def html_template
     File.read 'views/index.html.erb'
-  end
-
-  def get_query_string(env)
-    query = env['QUERY_STRING']
-    values = query.split('=')
-    values[1]
   end
 end
